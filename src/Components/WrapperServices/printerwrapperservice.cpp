@@ -3,15 +3,15 @@
 PrinterWrapperService* PrinterWrapperService::m_instance = nullptr;
 
 PrinterWrapperService::PrinterWrapperService(QObject *parent)
-    : IWrapperService{parent}, m_isConnected(false)
+    : IWrapperService{parent}, m_isConnected(false) , m_printerStatus(PRINTER_ERROR)
 {}
 
 void PrinterWrapperService::init()
 {
     qDebug() << __FUNCTION__;
-    m_lib.setFileName(LIBRARY_NAME);
+    m_lib.setFileName(LIBRARY_NAME);  //
     if(m_lib.load()){
-        initPrinter = (InitPrinterFunc)m_lib.resolve("InitPrinter");
+        initPrinter = reinterpret_cast<InitPrinterFunc>(m_lib.resolve("InitPrinter"));
         openPort = reinterpret_cast<OpenPortFunc>(m_lib.resolve("OpenPort"));
         getPrinterState = reinterpret_cast<GetPrinterStateFunc>(m_lib.resolve("GetPrinterState"));
         printerInitialize = reinterpret_cast<PrinterInitializeFunc>(m_lib.resolve("PrinterInitialize"));
@@ -34,8 +34,8 @@ bool PrinterWrapperService::initializedPrinter()
 {
     qDebug() << "[PRINTER] Try " << __FUNCTION__;
     if(initPrinter && openPort && getPrinterState){
-        m_printer = initPrinter(QString("").toStdWString().c_str());
-        int result = openPort(m_printer, QString("USB,").toStdWString().c_str());
+        m_printer = initPrinter(QString("").toStdWString().c_str());  // convert ve kieu M_printer nhan vao
+        int result = openPort(m_printer, QString("USB,").toStdWString().c_str()); //
         if(result == 0){
             qDebug() << "[PRINTER] openPort OK";
             unsigned int temp_status = 2;
@@ -43,6 +43,8 @@ bool PrinterWrapperService::initializedPrinter()
             if(result == 0){
                 qDebug() << __FUNCTION__ << "[PRINTER] get Status Done :" << PrinterStatusToText(temp_status);
                 setPrinterStatus(temp_status);
+            }else{
+                setPrinterStatus(PRINTER_ERROR);
             }
 
         }
@@ -64,7 +66,7 @@ bool PrinterWrapperService::printText(QStringList data)
             }else if(line.contains(PRINT_SYMBOL_TYPE)){
                 qDebug() << __FUNCTION__ << " [PRINTER] Print Symbol" << line << " - " << printSymbol;
                 int res = printSymbol(m_printer, 101, "Hello World"
-                            ,48,10,10,1);
+                                      ,48,10,10,1);
                 qDebug() << res;
             }
             else{
@@ -146,10 +148,10 @@ void PrinterWrapperService::checkingPrinterStatus()
     QtConcurrent::run(QThreadPool::globalInstance(),[=](){
         while(true){
             qDebug() << "[PRINTER] checkingPrinterStatus" << getPrinterState;
-            if(!m_isConnected){
-                initializedPrinter();
-            }else{
+            if(m_isConnected){
                 updatePrinterstatus();
+            }else{
+                initializedPrinter();
             }
             QThread::sleep(m_isConnected ? DURATION_NORMAL : DURATION_ABNORMAL);
         }
@@ -163,7 +165,12 @@ void PrinterWrapperService::updatePrinterstatus()
         unsigned int temp_status = 2;
         int result = getPrinterState(m_printer, &temp_status);
         qDebug() << __FUNCTION__ << "[PRINTER] get Status Done :" << PrinterStatusToText(temp_status) << " - " << result;
-        setPrinterStatus(temp_status);
+        if(result == 0){
+            setPrinterStatus(temp_status);
+        }else{
+            qDebug() << __FUNCTION__ << "[PRINTER] failed to call getPrinterState";
+            setPrinterStatus(PRINTER_ERROR);
+        }
     }
 }
 

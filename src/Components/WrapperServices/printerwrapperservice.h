@@ -10,7 +10,7 @@
 
 extern "C" {
 
-typedef void* (__cdecl *InitPrinterFunc          )  (const TCHAR*);
+typedef void* (__cdecl *InitPrinterFunc          )  (const TCHAR*); // khai bao contro ham
 typedef int   (__cdecl *OpenPortFunc             )  (void*, const TCHAR*);
 typedef int   (__cdecl *GetPrinterStateFunc      )  (void*,unsigned int*);
 typedef int   (__cdecl *SetRelativeHorizontalFunc)	(void* hPrinter,int position);
@@ -45,10 +45,12 @@ class PrinterWrapperService : public IWrapperService
 {
     Q_OBJECT
     explicit PrinterWrapperService(QObject *parent = nullptr);
+
     static PrinterWrapperService* m_instance;
 
 public:
     void init();
+
     static PrinterWrapperService* getIntance(){
         if(m_instance == nullptr){
             m_instance = new PrinterWrapperService();

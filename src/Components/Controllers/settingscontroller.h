@@ -22,7 +22,6 @@ public slots:
     void updateStoreName(QString);
     void updateHotline(QString);
     void updateFanpageLink(QString);
-    void updateBankName(QString);
     void updateBankId(QString);
     void updateAddress(QString);
     void syncData();

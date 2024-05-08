@@ -55,6 +55,7 @@ QString SettingsModel::bankId() const
 
 void SettingsModel::setBankId(const QString &newBankId)
 {
+    qDebug() << __FUNCTION__ << newBankId;
     if (m_bankId == newBankId)
         return;
     m_bankId = newBankId;

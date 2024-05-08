@@ -13,9 +13,19 @@ Rectangle {
     property var orderModel: OrderScreenModel
     property var settingsModel: SettingsScreenModel
     property var reportModel: ReportScreenModel
+    property var voucherModel: VoucherScreenModel
     property alias currentItemIdx: listOrderItem.currentIndex
 
     color: "#F9F9F9"
+
+    Connections{
+        target: LoginScreenModel
+        onIsLoginChanged :{
+            if(!LoginScreenModel.isLogin && LoginScreenModel.isAdmin()){
+                orderController.clearOrder();
+            }
+        }
+    }
 
     CheckoutConfirmPopup{
         id : checkoutConfirmPopup        
@@ -340,7 +350,7 @@ Rectangle {
                     height: 32
                     width: parent.width
                     title : "Discount"
-                    numb: orderModel.discount
+                    numb: "<font color='#004AAD'>(" + orderModel.discountPercent + "%) </font>" + orderModel.discount
 
                     ImageButton{
                         id : btnAddVouncher

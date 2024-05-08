@@ -24,6 +24,7 @@ void OrderModel::init()
     m_total = "0.0";
     m_printerStatusSrc = "qrc:/icons/ic_print_error.png";
     m_paymentMethod = 0;
+    m_discountPercent = "0";
 }
 
 QString OrderModel::printerStatusSrc() const
@@ -33,6 +34,7 @@ QString OrderModel::printerStatusSrc() const
 
 void OrderModel::setPrinterStatusSrc(const QString &newPrinterStatusSrc)
 {
+    qDebug() << __FUNCTION__ << newPrinterStatusSrc;
     if (m_printerStatusSrc == newPrinterStatusSrc)
         return;
     m_printerStatusSrc = newPrinterStatusSrc;

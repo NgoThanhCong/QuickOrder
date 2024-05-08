@@ -6,7 +6,7 @@ import ".."
 
 Popup{
     id :  popup_base
-    height: isCash ? 310 : 680
+    height: isCash ? 310 : 560
     width: 360
     anchors.centerIn: parent
     modal: true
@@ -43,7 +43,7 @@ Popup{
         let total = parseFloat(orderModel.total);
         let change = paid - total;
         changeTxt.numb = change.toFixed(2);
-        btnAdd.enabled =  paid >= total;
+        btnAdd.enabled =  isCash ? paid >= total : true;
 
         orderModel.change = changeTxt.numb;
         orderModel.cash = inputPaid.textField.text;
@@ -149,14 +149,13 @@ Popup{
             left: parent.left
             right: parent.right
             margins: 4
-            rightMargin: 16
         }
 
         Image {
             id: qrCodeImg
             anchors.fill: parent
             fillMode: Image.PreserveAspectFit
-            source: "qrc:/images/qr_code_default.png"
+            source: settingsModel.bankId
         }
 
     }

@@ -14,21 +14,20 @@ int main(int argc, char **argv)
 
     // Init. application
     QApplication app(argc, argv);
+    //Qsettings
     app.setOrganizationName("QuickOrder");
     app.setOrganizationDomain("QuickOrderCor");
+
     app.setApplicationName("QuickOrder");
-    qDebug() << QCoreApplication::applicationDirPath();
+    qDebug() << QCoreApplication::applicationDirPath();  // dc
     app.setWindowIcon(QIcon(":/icons/ic_app.svg"));
     Misc::Utilities::getInstance().loadFont(app);
+
     QQmlApplicationEngine engine;
-
-    ControllerManager cm;
-
-    // Init QML interface
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
-    engine.rootContext()->setContextProperty("Utils", &Misc::Utilities::getInstance());
     engine.rootContext()->setContextProperty("TimeManager", TimeManager::getIntance());
 
+    ControllerManager cm;
     cm.init();
     cm.registerController(engine.rootContext());
 
@@ -39,9 +38,6 @@ int main(int argc, char **argv)
         qDebug() << "QML engine error";
         return EXIT_FAILURE;
     }
-
-    // Enter application event loop
-    auto code = app.exec();
-    qDebug() << "Application exit code" << code;
-    return code;
+    app.exec();
+    return 0;
 }

@@ -3,6 +3,7 @@ import "../component"
 import "../common"
 import "../popup"
 import QtQml 2.3
+import QtQuick.Dialogs 1.3
 
 Rectangle{
     id : root
@@ -89,36 +90,28 @@ Rectangle{
                 height: 40
             }
 
-            FormDropdownList{
-                height: 36
-                fontSize: 18
-                width: parent.width
-                txtTitle: "Bank Name"
-                id: inputBankName
-                // cbBox.model: menuModel.getCats()
-
-            }
-
-            FormText{
-                height: 40
-                fontSize: 18
-                width: parent.width
-                txtTitle: "Bank ID"
-                textField.text: settingsModel.bankId
-                id : inputBankID
-                textField.onTextChanged: checkChanges()
+            Image{
+                id : qrCodeBanking
+                anchors.horizontalCenter: parent.horizontalCenter
+                source: settingsModel.bankId === "" ? "qrc:/images/select_avt.png" : settingsModel.bankId
+                height: 500
+                width: 500
+                fillMode: Image.PreserveAspectFit
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: fileDialog.open();
+                }
+                onSourceChanged: rootCard.checkChanges()
             }
         }
 
         function checkChanges(){
             let isUpdating = (inputNameStore.textField.text !== settingsModel.storeName
                                 || inputHotline.textField.text !== settingsModel.hotline
-                                || inputBankID.textField.text !== settingsModel.bankId
                                 || inputFbLink.textField.text !== settingsModel.fanpage
                                 || inputAddress.textField.text !== settingsModel.address
+                                || qrCodeBanking.source != settingsModel.bankId
                               )
-
-
             bottomBar.visible = isUpdating
         }
 
@@ -149,14 +142,15 @@ Rectangle{
                     let storeName = inputNameStore.textField.text
                     let address = inputAddress.textField.text
                     let hotline = inputHotline.textField.text
-                    let bankid = inputBankID.textField.text
                     let fanpage = inputFbLink.textField.text
+                    let bankId = qrCodeBanking.source
 
                     settingsController.updateStoreName(storeName);
                     settingsController.updateHotline(hotline);
-                    settingsController.updateBankId(bankid);
                     settingsController.updateFanpageLink(fanpage);
                     settingsController.updateAddress(address);
+                    settingsController.updateBankId(bankId)
+                    qrCodeBanking.source = settingsModel.bankId
 
                     rootCard.checkChanges();
                 }
@@ -171,13 +165,24 @@ Rectangle{
                 onBtnClicked: {
                     inputNameStore.textField.text = settingsModel.storeName
                     inputHotline.textField.text = settingsModel.hotline
-                    inputBankID.textField.text = settingsModel.bankId
                     inputFbLink.textField.text = settingsModel.fanpage
                     inputAddress.textField.text = settingsModel.address
-
+                    qrCodeBanking.source = settingsModel.bankId
                     rootCard.checkChanges();
                 }
             }
+        }
+            Component.onCompleted: rootCard.checkChanges();
+    }
+
+    FileDialog {
+        id: fileDialog
+        title: "Select an Image"
+        folder: shortcuts.pictures
+        nameFilters: ["Image files (*.png)"]
+        onAccepted: {
+            console.log("Image Selected: ", fileDialog.fileUrl)
+            qrCodeBanking.source = fileDialog.fileUrl
         }
     }
 

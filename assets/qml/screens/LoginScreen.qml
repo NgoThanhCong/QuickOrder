@@ -10,21 +10,16 @@ Item {
     Connections{
         target: LoginScreenModel
         onIsLoginChanged :{
-           if(LoginScreenModel.isLogin){
-               //Clear Data
-               formEmail.textField.text = ""
-               formPassword.textField.text = ""
-               formEmail.textField.focus = false
-               formPassword.textField.focus = false
-               // Show App as Fullscreen
-//               if(!LoginScreenModel.isAdmin())
-//               {
-                   app.showMaximized()
-//               }
-           }else{
-               //Show as Windows when login.
-               app.showNormal();
-           }
+            if(LoginScreenModel.isLogin){
+                //Clear Data
+                formEmail.textField.text = ""
+                formPassword.textField.text = ""
+                formEmail.textField.focus = false
+                formPassword.textField.focus = false
+                app.showMaximized()
+            }else{
+                app.showNormal();
+            }
         }
     }
 

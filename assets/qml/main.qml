@@ -12,7 +12,6 @@ ApplicationWindow {
     height: ms.Windows.height
     width: ms.Windows.width
     flags: Qt.Window | Qt.FramelessWindowHint
-    property UI ui: null
     property var ms: Measurement_1368x768
     color: ms.color.white
 
@@ -40,7 +39,6 @@ ApplicationWindow {
         sourceComponent: UI {
             anchors.fill: parent
             Component.onCompleted: {
-                app.ui = this
                 app.showNormal()
             }
         }

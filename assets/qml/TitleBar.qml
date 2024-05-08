@@ -7,14 +7,6 @@ Item {
     property string version: TitleBarModel.version
     property var settingsModel: SettingsScreenModel
 
-    // Title Bar with moving Window feature.
-    Item{
-        width: parent.width
-        height: ms.TitleBar.height
-        anchors.top: parent.top
-        z:-1
-    }
-
     ImageButton{
         id : btnClose
         src: "qrc:/icons/ic_close.png"
@@ -24,17 +16,6 @@ Item {
         anchors.right: parent.right
         btnColor: loginScreen.visible ? "white" : "black"
     }
-
-    // ImageButton{
-    //     id: btnMinimize
-    //     src: "qrc:/icons/ic_minimize.png"
-    //     onBtnClicked: {
-    //         print("Show Minimzed")
-    //         app.showMinimized();
-    //     }
-    //     anchors.right: btnClose.left
-    //     btnColor: loginScreen.visible ? "white" : "black"
-    // }
 
     ImageButton{
         id : btnLogout

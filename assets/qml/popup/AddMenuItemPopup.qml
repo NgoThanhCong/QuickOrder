@@ -106,6 +106,10 @@ PopupBase {
                 txtTitle: "Category : "
                 id: inputCategory
                 cbBox.model: menuModel.getCats()
+                Connections{
+                    target : menuModel
+                    onCatsChanged:inputCategory.cbBox.model =menuModel.getCats()
+                }
             }
 
             FormText{

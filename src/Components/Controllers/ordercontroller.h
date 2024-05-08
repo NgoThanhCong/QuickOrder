@@ -29,6 +29,7 @@ public slots:
     bool applyVoucher(QString code);
     void checkout(QVariant userId);
     void handlePrinterStatusChanged(int);
+    void clearOrder();
 
 private:
     QOMenuItemTable m_menuitemTable;

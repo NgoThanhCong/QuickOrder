@@ -92,6 +92,12 @@ void OrderController::handlePrinterStatusChanged(int status)
     }
 }
 
+void OrderController::clearOrder()
+{
+    OrderModel* model = getModel<OrderModel>();
+    model->clearOrder();
+}
+
 QString OrderController::alignText(QString title, QString content)
 {
     QString res = "";

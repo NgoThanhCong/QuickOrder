@@ -24,7 +24,7 @@ Rectangle{
         anchors.left: parent.left
         onSelectedIdx: screenViewer.currentIdx = idx
         onSettingsClicked: showSettingsPopup()
-        visible: !loginScreen.visible && LoginScreenModel.isAdmin()
+        visible: !loginScreen.visible && LoginScreenModel.isAdmin() // ẩn hiện
     }
 
     ScreenViewer{
@@ -48,31 +48,7 @@ Rectangle{
     LoginScreen{
         id : loginScreen
         anchors.fill: parent
-        property bool loginState: !LoginScreenModel.isLogin
-        PropertyAnimation {
-            id: hideAnim
-            targets: loginScreen
-            properties: "visible"
-            from: 1.0
-            to: 0.0
-            duration: 200
-            onStopped: loginScreen.visible = false
-        }
-
-        PropertyAnimation {
-            id: showAnim
-            targets: loginScreen
-            properties: "visible"
-            from: 0.0
-            to: 1.0
-            duration: 200
-            onStarted: loginScreen.visible = true
-        }
-
-        onLoginStateChanged: {
-            if(loginState) showAnim.start()
-            else hideAnim.start()
-        }
+        visible: !LoginScreenModel.isLogin
     }
 
 }
