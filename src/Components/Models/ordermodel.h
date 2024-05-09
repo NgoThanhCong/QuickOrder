@@ -53,6 +53,8 @@ public:
     QString printerStatusSrc() const;
     void setPrinterStatusSrc(const QString &newPrinterStatusSrc);
 
+    bool isCash();
+
 signals:
     void orderDataViewChanged();
     void subTotalChanged();

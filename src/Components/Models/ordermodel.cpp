@@ -41,6 +41,11 @@ void OrderModel::setPrinterStatusSrc(const QString &newPrinterStatusSrc)
     emit printerStatusSrcChanged();
 }
 
+bool OrderModel::isCash()
+{
+    return m_paymentMethod == 0;
+}
+
 QString OrderModel::discountPercent() const
 {
     return m_discountPercent;

@@ -215,14 +215,17 @@ void OrderController::handleCheckingout(QVariant user)
     data << alignText("Subtotal", model->subTotal());
     data << "\n";
     data << alignText("Discount",model->discount());
-    data << alignText("Cash",model->cash());
-    data << alignText("Change",model->change());
+    if(model->isCash()){
+        data << alignText("Cash",model->cash());
+        data << alignText("Change",model->change());
+    }else{
+        data << alignText("Banking","");
+    }
     data << QString("________________________________");
     data << alignText("Total",QString::number(eo.totalAmount(), 'f', 2));
     data << "\n";
     data << "\n";
     data << QString("Give us Feedback: %1").arg(hotline).leftJustified(32,' ');
-    data << PRINT_SYMBOL_TYPE;
     data << QString("**** Thank you for visiting ****");
     data << "\n";
     data << "\n";

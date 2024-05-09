@@ -25,7 +25,6 @@ bool DatabaseManager::openDb()
 {
     m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName(getDbPath());
-//    m_db.setPassword("quickorder");
     qDebug() << QSqlDatabase::drivers();
     if(m_db.open() && m_db.isValid())
     {

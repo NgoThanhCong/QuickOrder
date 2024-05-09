@@ -55,21 +55,14 @@ bool PrinterWrapperService::initializedPrinter()
 
 bool PrinterWrapperService::printText(QStringList data)
 {
-    if(m_isConnected && printerInitialize && setRelativeHorizontal &&
-        printAndFeedLine && printTextS && cutPaperWithDistance)
+    if(m_isConnected && printerInitialize &&
+        printAndFeedLine && printTextS)
     {
         printerInitialize(m_printer);
-        setRelativeHorizontal(m_printer, 180);
         foreach (const QString& line, data) {
             if(line == "\n"){
                 printAndFeedLine(m_printer);
-            }else if(line.contains(PRINT_SYMBOL_TYPE)){
-                qDebug() << __FUNCTION__ << " [PRINTER] Print Symbol" << line << " - " << printSymbol;
-                int res = printSymbol(m_printer, 101, "Hello World"
-                                      ,48,10,10,1);
-                qDebug() << res;
-            }
-            else{
+            }else{
                 printTextS(m_printer, line.toStdString().c_str());
             }
         }

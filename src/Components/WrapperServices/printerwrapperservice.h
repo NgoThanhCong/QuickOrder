@@ -39,8 +39,6 @@ enum PRINTER_STATUS : unsigned int{
     PRINTER_ERROR,
 };
 
-#define PRINT_SYMBOL_TYPE "[PRINT_SYMBOL_TYPE]"
-
 class PrinterWrapperService : public IWrapperService
 {
     Q_OBJECT

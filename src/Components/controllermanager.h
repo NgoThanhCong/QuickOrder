@@ -28,7 +28,7 @@ public:
     void init();
     void registerController(QQmlContext* root);
 public slots:
-    void onDbConnected();
+    void onDbConnected(bool isConnected);
 
 private:
     void initController();

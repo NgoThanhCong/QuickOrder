@@ -29,7 +29,11 @@ Rectangle {
 
     CheckoutConfirmPopup{
         id : checkoutConfirmPopup        
-        onConfirm: orderController.checkout(LoginScreenModel.currentUser);
+        onConfirm: {
+            orderController.checkout(LoginScreenModel.currentUser);
+            listOrderItem.currentIndex = -1
+            btnCheckout.enabled = orderModel.orderDataView.rowCount > 0
+        }
     }
 
     InputVoucherPopup{

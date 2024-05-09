@@ -30,15 +30,15 @@ void ControllerManager::initController()
 
     // Initialize Models
     m_controllers.value(TAG_TITLEBAR)->
-            setModel(new TitleBarModel(QString("%1%2").arg(TAG_TITLEBAR,SUFFIX_MODEL)));
+        setModel(new TitleBarModel(QString("%1%2").arg(TAG_TITLEBAR,SUFFIX_MODEL)));
     m_controllers.value(TAG_NAVIGATION_BAR)->
-            setModel(new NavigationBarModel(QString("%1%2").arg(TAG_NAVIGATION_BAR,SUFFIX_MODEL)));
+        setModel(new NavigationBarModel(QString("%1%2").arg(TAG_NAVIGATION_BAR,SUFFIX_MODEL)));
     m_controllers.value(TAG_LOGINSCREEN)->
-            setModel(new LoginModel(QString("%1%2").arg(TAG_LOGINSCREEN,SUFFIX_MODEL)));
+        setModel(new LoginModel(QString("%1%2").arg(TAG_LOGINSCREEN,SUFFIX_MODEL)));
     m_controllers.value(TAG_USERSCREEN)->
-            setModel(new UserModel(QString("%1%2").arg(TAG_USERSCREEN,SUFFIX_MODEL)));
+        setModel(new UserModel(QString("%1%2").arg(TAG_USERSCREEN,SUFFIX_MODEL)));
     m_controllers.value(TAG_MENUSCREEN)->
-            setModel(new MenuModel(QString("%1%2").arg(TAG_MENUSCREEN,SUFFIX_MODEL)));
+        setModel(new MenuModel(QString("%1%2").arg(TAG_MENUSCREEN,SUFFIX_MODEL)));
     m_controllers.value(TAG_ORDERSCREEN)->
         setModel(new OrderModel(QString("%1%2").arg(TAG_ORDERSCREEN,SUFFIX_MODEL)));
     m_controllers.value(TAG_REPORTSCREEN)->
@@ -72,11 +72,13 @@ void ControllerManager::registerController(QQmlContext* root)
     }
 }
 
-void ControllerManager::onDbConnected()
+void ControllerManager::onDbConnected(bool isConnected)
 {
-    qDebug() << __FUNCTION__;
-    for(auto& item : m_controllers.toStdMap())
-    {
-        item.second->syncData();
+    qDebug() << __FUNCTION__ << isConnected;
+    if(isConnected){
+        for(auto& item : m_controllers.toStdMap())
+        {
+            item.second->syncData();
+        }
     }
 }
