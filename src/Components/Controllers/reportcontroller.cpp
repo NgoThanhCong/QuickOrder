@@ -40,10 +40,10 @@ void ReportController::exportData(int days)
                        "JOIN "
                        "USER_TABLE u ON o.user_id = u.user_id "
                        "WHERE "
-                       "substr(order_date_time, 7, 4) || '-' || substr(order_date_time, 4, 2) || '-' || substr(order_date_time, 1, 2) = date('now', 'localtime') "
+                       "substr(order_date_time, 7, 4) || '-' || substr(order_date_time, 4, 2) || '-' || substr(order_date_time, 1, 2) >= date('now', '-%1 days') "
                        "ORDER BY "
                        "o.order_id;";
-    QSqlQuery query(queryStr);
+    QSqlQuery query(queryStr.arg(days));
 
     QStringList dataToWrite;
     QSet<QString> orderIdSet;
@@ -53,30 +53,33 @@ void ReportController::exportData(int days)
             QString line;
             QString orderId = query.value("order_id").toString();
             QString orderTime = query.value("order_date_time").toString();
-            QString paymentMethod = query.value("payment_method").toString();
+            int paymentMethod = query.value("payment_method").toInt();
+            QString pmMethod = paymentMethod == 0 ? "Cash" : "Banking";
             QString total = query.value("total_amount").toString();
+            QString user = Misc::Utilities::convertVietnameseToEnglish(query.value("user_name").toString());
             if(orderIdSet.contains(orderId)){
                 orderId = "";
                 orderTime = "";
-                paymentMethod = "";
+                pmMethod = "";
                 total = "";
+                user = "";
             }else{
                 orderIdSet.insert(orderId);
             }
             line.append(orderId + ",");
             line.append(orderTime + ",");
-            line.append(paymentMethod + ",");
+            line.append(pmMethod + ",");
             line.append(query.value("item_id").toString() + ",");
             line.append(query.value("item_name").toString() + ",");
             line.append(query.value("quantity").toString() + ",");
             line.append(SizeToText(query.value("item_size").toInt()) + ",");
             line.append(query.value("subtotal").toString() + ",");
-            line.append(query.value("amount").toString() + ",");
-            line.append(Misc::Utilities::convertVietnameseToEnglish(query.value("user_name").toString()));
+            line.append(total + ",");
+            line.append(user);
             dataToWrite << line;
         }
     }
-    Misc::Utilities::writeCsv(dataToWrite);
+    Misc::Utilities::writeCsv(dataToWrite, QString::number(days).append("days"));
 }
 
 void ReportController::syncData()

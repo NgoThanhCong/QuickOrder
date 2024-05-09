@@ -26,6 +26,17 @@ Item {
         onBtnClicked: LoginScreenController.logout()
     }
 
+    ImageButton{
+        id : btnExport
+        anchors.right: btnLogout.left
+        icHeight: 24
+        icWidth: 24
+        src : "qrc:/icons/ic_export.png"
+        btnColor: loginScreen.visible ? "white" : "black"
+        visible: LoginScreenModel.isLogin && !LoginScreenModel.isAdmin()
+        onBtnClicked: ReportScreenController.exportData(0);
+    }
+
     Image {
         id: imgLogo
         source: "qrc:/images/logo_horizontal.png"

@@ -74,22 +74,19 @@ CardBase {
         }
     }
 
-    Image{
+    ImageButton{
         antialiasing: true
-        source: "qrc:/icons/ic_export.png"
+        src: "qrc:/icons/ic_export.png"
         height: 64
         width: 64
+        icHeight: 64
+        icWidth: 64
         anchors{
             verticalCenter: parent.verticalCenter
             right: parent.right
             margins: 8
         }
-        MouseArea{
-            anchors.fill: parent
-            onClicked: {
-                reportController.exportData(1);
-            }
-        }
+        onBtnClicked: ReportScreenController.exportData(7);
     }
 
 }

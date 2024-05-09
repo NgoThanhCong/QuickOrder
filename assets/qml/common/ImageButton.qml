@@ -10,11 +10,13 @@ Item {
     antialiasing: true
     property alias icon: imgBtn
     property color btnColor: "black"
+    property int icHeight: ms.icon.height_ic
+    property int icWidth: ms.icon.width_ic
 
     Image{
         id: imgBtn
-        height: ms.icon.height_ic
-        width: ms.icon.width_ic
+        height: icHeight
+        width: icWidth
         source: src
         anchors.centerIn: parent
     }

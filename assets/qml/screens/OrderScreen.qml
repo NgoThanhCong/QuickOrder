@@ -209,6 +209,14 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: 32
+
+                Rectangle{
+                    anchors.fill: parent
+                    color: "transparent"
+                    border.color: ms.color.stroke
+                    border.width: 1
+                    radius: height
+                }
             }
 
             TextNormal {

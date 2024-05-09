@@ -12,7 +12,7 @@ public:
     ReportController(const QString &tag, QObject* parent = nullptr);
 
 public slots:
-    void exportData(int days);
+    void exportData(int days = 0); // 0 is today.
 
 public:
     void syncData();

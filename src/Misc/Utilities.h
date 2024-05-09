@@ -48,9 +48,7 @@ public:
 
     static QString convertVietnameseToEnglish(QString str);
 
-    static void writeCsv(const QList<QStringList> &data, const QString &fileName);
-
-    static void writeCsv(const QStringList& data);
+    static void writeCsv(const QStringList& data, const QString& postfix);
 
 };
 }

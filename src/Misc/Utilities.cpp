@@ -149,37 +149,10 @@ QString Misc::Utilities::convertVietnameseToEnglish(QString str)
     return str;
 }
 
-void Misc::Utilities::writeCsv(const QList<QStringList> &data, const QString &fileName)
-{
-    // Open the file
-    QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
-    QString filePath = desktopPath +"/"+fileName;
-    QFile file(filePath);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append)) {
-        qDebug() << "Could not open file for writing:" << file.errorString();
-        return;
-    }
-
-    QTextStream out(&file);
-
-    for (const auto &row : data) {
-        QStringList formattedRow;
-        for (const auto &item : row) {
-            QString formattedItem = item;
-            if (item.contains(',')) {
-                formattedItem = "\"" + item + "\"";
-            }
-            formattedRow.append(formattedItem);
-        }
-        out << formattedRow.join(",") << "\n";
-    }
-    file.close();
-}
-
-void Misc::Utilities::writeCsv(const QStringList &data)
+void Misc::Utilities::writeCsv(const QStringList &data, const QString& postfix)
 {
     QDate currentDate = QDate::currentDate();
-    QString fileName = currentDate.toString("yyyy-MM-dd") + ".csv";
+    QString fileName = currentDate.toString("yyyy-MM-dd_") + postfix + ".csv";
     QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
     QString filePath = desktopPath + QDir::separator() + fileName;
     QFile file(filePath);

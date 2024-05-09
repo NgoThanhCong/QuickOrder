@@ -216,7 +216,7 @@ void OrderController::handleCheckingout(QVariant user)
     data << "\n";
     data << alignText("Discount",model->discount());
     if(model->isCash()){
-        data << alignText("Cash",model->cash());
+        data << alignText("Cash",QString::number(model->cash().toFloat(), 'f', 2));
         data << alignText("Change",model->change());
     }else{
         data << alignText("Banking","");
