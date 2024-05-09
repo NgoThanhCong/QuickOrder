@@ -32,7 +32,6 @@ Rectangle {
         onConfirm: {
             orderController.checkout(LoginScreenModel.currentUser);
             listOrderItem.currentIndex = -1
-            btnCheckout.enabled = orderModel.orderDataView.rowCount > 0
         }
     }
 
@@ -457,6 +456,12 @@ Rectangle {
                         checkoutConfirmPopup.open()
                     }
                     enabled: orderModel.orderDataView.rowCount > 0
+                }
+
+                Connections{
+                    target: orderModel.orderDataView
+                    onModelReset: btnCheckout.enabled =  orderModel.orderDataView.rowCount > 0
+                    onOrderDataChanged:btnCheckout.enabled =  orderModel.orderDataView.rowCount > 0
                 }
             }
         }
