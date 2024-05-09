@@ -46,7 +46,7 @@ Rectangle{
                 txtTitle: "Store Name"
                 textField.text: settingsModel.storeName
                 id : inputNameStore
-                textField.onTextChanged: checkChanges()
+                textField.onTextChanged: rootCard.checkChanges()
             }
 
             FormText{
@@ -56,7 +56,7 @@ Rectangle{
                 txtTitle: "Address"
                 textField.text: settingsModel.address
                 id : inputAddress
-                textField.onTextChanged: checkChanges()
+                textField.onTextChanged: rootCard.checkChanges()
             }
 
             FormText{
@@ -66,7 +66,7 @@ Rectangle{
                 txtTitle: "Hotline"
                 textField.text: settingsModel.hotline
                 id : inputHotline
-                textField.onTextChanged: checkChanges()
+                textField.onTextChanged: rootCard.checkChanges()
             }
 
             FormText{
@@ -76,7 +76,7 @@ Rectangle{
                 txtTitle: "FanPage Link"
                 textField.text: settingsModel.fanpage
                 id : inputFbLink
-                textField.onTextChanged: checkChanges()
+                textField.onTextChanged: rootCard.checkChanges()
             }
 
             TextTitle{
